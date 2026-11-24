@@ -1,7 +1,12 @@
-// Pump.fun Paper Sprint — Paper Bot, Real Ranking.
-// Entry point: the grader runs `node /bot/main.ts`. See strategy.ts for the strategy
-// and STRATEGY.md for how it was chosen on the dev window.
-import { runBot } from './vendor/makefun-bot.ts';
-import { createStrategy, DEFAULT_PARAMS } from './strategy.ts';
+// Pump.fun Paper Sprint — entrypoint.
+//
+// Runs on Node 22 (the grader runs `node main.ts`; Node strips the types,
+// so there is no build step and nothing to install). The wire protocol lives
+// in vendor/makefun-bot.ts; the whole strategy lives in strategy.ts.
 
-await runBot(createStrategy(DEFAULT_PARAMS));
+import { runBot } from './vendor/makefun-bot.ts';
+import { createPaperSprintBot } from './strategy.ts';
+
+// The bot speaks agent-fun/replay/v2 on stdin/stdout: one reply per batch,
+// no clock, no randomness, no network. A non-zero exit means the run failed.
+await runBot(createPaperSprintBot());
